@@ -16,23 +16,6 @@
 
 extern int errno;
 
-enum {
-	BREAK_EXEC = DR_RW_EXECUTE,
-	BREAK_WRITE = DR_RW_WRITE,
-	BREAK_READWRITE = DR_RW_READ,
-};
-
-enum {
-	BREAK_ONE = DR_LEN_1,
-	BREAK_TWO = DR_LEN_2,
-	BREAK_FOUR = DR_LEN_4,
-	BREAK_EIGHT = DR_LEN_8,
-};
-
-#define ENABLE_BREAKPOINT(x) (0x1<<(x*2))
-#define ENABLE_BREAK_EXEC(x) (BREAK_EXEC<<(DR_CONTROL_SHIFT+(x*DR_CONTROL_SIZE)))
-#define ENABLE_BREAK_WRITE(x) (BREAK_WRITE<<(DR_CONTROL_SHIFT+(x*DR_CONTROL_SIZE)))
-#define ENABLE_BREAK_READWRITE(x) (BREAK_READWRITE<<(DR_CONTROL_SHIFT+(x*DR_CONTROL_SIZE)))
 
 // Copy the 'num_bits' LSBs frm val into the indicated bit-range of 'input'. Return the
 // result.
