@@ -1,6 +1,14 @@
-all: hwbp_lib
+all: libhwbp.a test
 
-hwbp_lib: hwbp_lib.c
-	gcc -std=c99 -g -O0 -o hwbp_lib hwbp_lib.c
+hwbp.o: hwbp.c hwbp.h
+	gcc -std=c99 -g -O0 -c -o hwbp.o hwbp.c
+
+libhwbp.a: hwbp.o
+	ar crs libhwbp.a hwbp.o
+
+test: libhwbp.a hwbp.h test.cpp
+	g++ -o test --std=c++11 -g -O0 test.cpp libhwbp.a
+
 clean:
-	rm -f core a.out hwbp_lib
+	rm -f hwbp.o libhwbp.a test
+
