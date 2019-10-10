@@ -9,10 +9,11 @@
 #include <sys/prctl.h>
 #include <stdint.h>
 #include <errno.h>
-#include <stdbool.h>
 
 #include <assert.h>
 #include <sys/debugreg.h>
+
+#include "hwbp.h"
 
 extern int errno;
 
@@ -165,8 +166,19 @@ bool install_breakpoint(void *addr, int num_bytes, int bpno, void (*handler)(int
 
 	waitpid(child, &child_status, 0);
 
+#if 1
         // FIXME: It doesn't make sense to have an API that suggests different handlers for different breakpoints.
-	signal(SIGTRAP, handler);
+	//signal(SIGTRAP, handler);
+        //
+        static bool reported = false;
+        if (!reported) {
+            fprintf(stderr, "WARNING: THIS VERSION OF THE CODE DOES NOT INSTALL handler FOR SIGTRAP.\n");
+            reported = true;
+        }
+#else
+    // TODO: switch to creating a signal-handline thread (using C++11) and signalfd()
+    // see http://lazarenko.me/signal-handler/
+#endif
 
 	if (WIFEXITED(child_status) && !WEXITSTATUS(child_status))
 		return true;
